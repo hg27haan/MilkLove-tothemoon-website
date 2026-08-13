@@ -13,7 +13,7 @@ GitHub repo  →  Vercel/Netlify (host website)
 ## Bước 1: Tạo project Firebase
 
 1. Vào [Firebase Console](https://console.firebase.google.com/)
-2. **Add project** → đặt tên `milklove-hub` (hoặc tên bạn thích)
+2. **Add project** → đặt tên `milklove-tothemoon` (hoặc tên bạn thích)
 3. Tắt Google Analytics nếu không cần → **Create project**
 
 ---
@@ -21,15 +21,15 @@ GitHub repo  →  Vercel/Netlify (host website)
 ## Bước 2: Tạo Web App
 
 1. Trong project → **Project Overview** → icon **Web** `</>`
-2. App nickname: `MilkLove Hub`
+2. App nickname: `MilkLove - tothemoon`
 3. **Register app** → copy các giá trị config
 4. Tạo file `.env` trong thư mục project (copy từ `.env.example`):
 
 ```env
 VITE_FIREBASE_API_KEY=AIza...
-VITE_FIREBASE_AUTH_DOMAIN=milklove-hub.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=milklove-hub
-VITE_FIREBASE_STORAGE_BUCKET=milklove-hub.appspot.com
+VITE_FIREBASE_AUTH_DOMAIN=milklove-tothemoon.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=milklove-tothemoon
+VITE_FIREBASE_STORAGE_BUCKET=milklove-tothemoon.appspot.com
 VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
 VITE_FIREBASE_APP_ID=1:123456789:web:abc123
 ```
@@ -74,7 +74,7 @@ firebase login
 Trong thư mục project:
 ```bash
 firebase use --add
-# Chọn project milklove-hub
+# Chọn project milklove-tothemoon
 firebase deploy --only firestore:rules,storage
 ```
 
@@ -103,9 +103,9 @@ Hoặc tạo thủ công trong Firebase Console:
 ```bash
 git init
 git add .
-git commit -m "MilkLove hub with Firebase"
+git commit -m "MilkLove - tothemoon with Firebase"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/milklove-hub.git
+git remote add origin https://github.com/YOUR_USERNAME/milklove-tothemoon.git
 git push -u origin main
 ```
 
@@ -118,12 +118,12 @@ git push -u origin main
 GitHub Pages không hỗ trợ env vars tốt. **Vercel** miễn phí và tích hợp GitHub tốt.
 
 1. Vào [vercel.com](https://vercel.com) → đăng nhập bằng GitHub
-2. **Add New Project** → import repo `milklove-hub`
+2. **Add New Project** → import repo `milklove-tothemoon`
 3. Framework: **Vite** (tự detect)
 4. **Environment Variables** → thêm 6 biến `VITE_FIREBASE_*` (giống file `.env`)
 5. **Deploy**
 
-Sau ~1 phút bạn có link: `https://milklove-hub.vercel.app`
+Sau ~1 phút bạn có link: `https://milklove-tothemoon.vercel.app`
 
 ### Cấu hình SPA routing (quan trọng)
 

@@ -1,119 +1,92 @@
-# MilkLove Hub — Editable React/Vite Edition
+# MilkLove — tothemoon
 
-Đây là bản code độc lập lấy cảm hứng từ cấu trúc của MilkLove Hub, được thiết kế để bạn **dễ đổi ảnh và thêm nội dung** mà không phải sửa layout.
+Website **MilkLove - tothemoon**, lấy cảm hứng từ phong cách official fan site (Red Velvet JP). Đây là nơi tổng hợp profile, tác phẩm, lịch trình, tin tức và các dự án tothemoon — giao diện nhẹ, ấm, dễ duyệt trên cả desktop lẫn mobile.
 
-## 1. Chạy project
+> *Love you tothemoon and back*
 
-```bash
-npm install
-npm run dev
+---
+
+## Tổng quan
+
+Project là một single-page app React/Vite, deploy lên Vercel. Nội dung được quản lý qua trang **Admin** (`/admin`), đồng bộ qua Firebase Firestore khi đã cấu hình; nếu chưa có Firebase thì dùng dữ liệu mặc định + localStorage.
+
+Trang chủ không phải nơi nhập nội dung riêng — **tin tức** và **lịch trình** trên homepage tự lấy từ cùng nguồn với `/news` và `/schedule`, sắp theo ngày mới nhất (6 tin, 4 sự kiện). Phần chỉnh riêng trên trang chủ chỉ gồm banner slider và countdown (có thể ẩn/hiện).
+
+---
+
+## Trang & chức năng
+
+| Trang | Đường dẫn | Mô tả |
+|-------|-----------|--------|
+| Trang chủ | `/` | Banner, countdown, preview tin & lịch |
+| Profile | `/profiles`, `/profiles/:slug` | Thông tin thành viên |
+| Works | `/works` | Phim, series, sự kiện |
+| Schedule | `/schedule` | Lịch sự kiện đầy đủ |
+| News | `/news` | Tin tức đầy đủ |
+| Project | `/project`, `/project/:slug` | Dự án fan, chi tiết nội bộ |
+| Admin | `/admin` | Quản trị nội dung (yêu cầu đăng nhập) |
+
+Hỗ trợ **song ngữ EN / VI** — chuyển đổi ngay trên header.
+
+---
+
+## Giao diện
+
+Bảng màu 4 tone: xanh lá `#c0dbae`, hồng `#ffc5c4`, cam đậm `#f47447`, cam nhạt `#fcb567`. Layout dùng glass card, gradient nền, typography nhẹ — hướng tới cảm giác fan site chính thức nhưng vẫn mang dấu ấn riêng của tothemoon.
+
+---
+
+## Kiến trúc dữ liệu
+
+```
+Admin (/admin)
+    │
+    ├── Banner, Countdown          → chỉ ảnh hưởng trang chủ
+    ├── News, Schedule             → /news, /schedule + preview trang chủ
+    ├── Project, Profile, Works    → các trang tương ứng
+    └── Settings                   → badge MỚI, cấu hình site
+            │
+            ▼
+    Firebase Firestore  (hoặc localStorage khi dev offline)
+            │
+            ▼
+    SiteDataContext  →  toàn bộ trang public
 ```
 
-Mở URL Vite hiển thị, thường là:
+- **Badge MỚI** trên tin: tự hiện trong N ngày sau ngày đăng, hoặc bật thủ công từng tin.
+- **Ảnh & media**: lưu trong `public/images/`, tham chiếu bằng đường dẫn `/images/...`.
 
-```text
-http://localhost:5173/
+---
+
+## Công nghệ
+
+| Lớp | Công nghệ |
+|-----|-----------|
+| Frontend | React, Vite |
+| Styling | CSS thuần (`src/styles.css`) |
+| Routing | Client-side (pathname) |
+| Backend / DB | Firebase Firestore + Auth |
+| Deploy | Vercel |
+
+---
+
+## Cấu trúc source (tóm tắt)
+
 ```
-
-## 2. File cần chỉnh nhiều nhất
-
-```text
-src/data/siteData.js
-```
-
-Trong file này bạn có thể sửa:
-
-- Tên website
-- Hero / cover
-- Countdown
-- Profiles
-- Works
-- Schedule
-- Stats
-- Guide
-- Social links
-
-## 3. Đổi ảnh
-
-Cho ảnh vào:
-
-```text
-public/images/
-```
-
-Ví dụ:
-
-```text
-public/images/milk.jpg
-public/images/love.jpg
-public/images/cover.jpg
-```
-
-Rồi đổi trong `src/data/siteData.js`:
-
-```js
-image: '/images/milk.jpg'
-```
-
-Hero:
-
-```js
-heroImage: '/images/cover.jpg'
-```
-
-## 4. Thêm một Work mới
-
-Trong `works` của `src/data/siteData.js`, copy một object:
-
-```js
-{
-  id: 7,
-  year: '2026',
-  category: 'Event',
-  date: '20 Dec 2026',
-  title: 'Tên sự kiện',
-  roles: 'Thông tin thêm',
-  image: '/images/event-new.jpg',
-  tag: 'Event',
-  url: '#',
-},
-```
-
-Không cần sửa component.
-
-## 5. Thêm profile mới
-
-Copy một phần tử trong `profiles`, đổi `slug`, `name`, `image`, `facts`.
-
-## 6. Deploy Vercel
-
-Project đã có `vercel.json` để các route như `/works`, `/profiles/milk` chạy trực tiếp.
-
-Có thể deploy bằng GitHub + Vercel hoặc Vercel CLI.
-
-## 7. Cấu trúc chính
-
-```text
 src/
-├── App.jsx
-├── main.jsx
-├── styles.css
-├── data/
-│   └── siteData.js        <- chỉnh nội dung ở đây
-├── components/
-│   ├── Layout.jsx
-│   ├── Countdown.jsx
-│   └── WorkCard.jsx
-└── pages/
-    ├── Home.jsx
-    ├── Profiles.jsx
-    ├── Works.jsx
-    ├── Schedule.jsx
-    ├── Stats.jsx
-    ├── Guide.jsx
-    └── Game.jsx
+├── pages/          Trang public + Admin
+├── components/     Layout, slider, countdown, section title...
+├── data/           Dữ liệu mặc định + SiteDataContext
+├── i18n/           Bản dịch EN/VI
+└── lib/            Firebase, parse ngày, logic preview trang chủ
 ```
 
-## Lưu ý
+Chi tiết cấu hình Firebase và deploy: xem [`FIREBASE_SETUP.md`](./FIREBASE_SETUP.md).
 
-Các ảnh trong project hiện tại chỉ là placeholder SVG. Hãy thay bằng ảnh bạn có quyền sử dụng.
+---
+
+## Credit
+
+**MilkLove — tothemoon** · Made by NahHuynh
+
+Website fan-made, không liên kết chính thức với MilkLove hay agency quản lý nghệ sĩ.

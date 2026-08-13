@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSiteData } from '../data/SiteDataContext'
 
+import { HOME_NEWS_LIMIT, HOME_SCHEDULE_LIMIT } from '../lib/homePreview'
+
 const clone = value => JSON.parse(JSON.stringify(value))
 
 const ADMIN_PAGES = [
@@ -8,21 +10,21 @@ const ADMIN_PAGES = [
     id: 'home',
     label: 'Trang chủ',
     path: '/',
-    desc: 'Banner cuộn, countdown, preview News & Schedule',
+    desc: 'Banner + countdown. Tin tức & lịch trình tự lấy từ tab News/Schedule',
     sections: ['Banner slider', 'Countdown'],
   },
   {
     id: 'news',
     label: 'News',
     path: '/news',
-    desc: 'Danh sách tin tức — hiện ở trang News và preview trang chủ',
+    desc: `Danh sách tin tức — /news và ${HOME_NEWS_LIMIT} tin mới nhất hiện ở trang chủ`,
     sections: ['Tin tức'],
   },
   {
     id: 'schedule',
     label: 'Schedule',
     path: '/schedule',
-    desc: 'Lịch sự kiện — hiện ở trang Schedule và preview trang chủ',
+    desc: `Lịch sự kiện — /schedule và ${HOME_SCHEDULE_LIMIT} sự kiện mới nhất hiện ở trang chủ`,
     sections: ['Sự kiện'],
   },
   {
@@ -51,7 +53,7 @@ const ADMIN_PAGES = [
     label: 'Cài đặt chung',
     path: '/',
     desc: 'Logo, tên site, footer, mạng xã hội — áp dụng toàn website',
-    sections: ['Thương hiệu', 'Footer', 'Social'],
+    sections: ['Thương hiệu', 'Nhãn MỚI', 'Footer', 'Social'],
   },
 ]
 
@@ -324,9 +326,19 @@ export function Admin() {
                 <button className="admin-add" onClick={() => setDraft(prev => ({ ...prev, banners: [...(prev.banners || []), { image: '', url: '/', alt: '' }] }))}>+ Thêm banner</button>
               </SectionBlock>
 
-              <SectionBlock title="Countdown" hint="Đồng hồ đếm ngược trên trang chủ (/)">
+              <SectionBlock title="Countdown" hint="Chỉ phần này chỉnh riêng trên trang chủ — có thể ẩn/hiện">
+                <label className="admin-field admin-checkbox-field">
+                  <span>Hiển thị countdown trên trang chủ</span>
+                  <input
+                    type="checkbox"
+                    checked={draft.countdown?.enabled !== false}
+                    onChange={e => setCountdown('enabled', e.target.checked)}
+                  />
+                  <small>Tắt để ẩn hoàn toàn khối đếm ngược</small>
+                </label>
                 <div className="admin-grid two">
-                  <Field label="Nhãn hiển thị" value={draft.countdown.label} onChange={value => setCountdown('label', value)} />
+                  <Field label="Nhãn (EN)" value={draft.countdown.label} onChange={value => setCountdown('label', value)} />
+                  <Field label="Nhãn (VI)" value={draft.countdown.labelVi} onChange={value => setCountdown('labelVi', value)} />
                   <Field
                     label="Ngày giờ đích"
                     type="datetime-local"
@@ -337,11 +349,18 @@ export function Admin() {
               </SectionBlock>
 
               <div className="admin-info-box">
-                <strong>Trang chủ còn hiển thị:</strong>
+                <strong>Trang chủ tự đồng bộ từ các trang khác:</strong>
                 <ul>
-                  <li><button type="button" onClick={() => setTab('news')}>News</button> — preview 6 tin mới nhất</li>
-                  <li><button type="button" onClick={() => setTab('schedule')}>Schedule</button> — preview 4 sự kiện</li>
+                  <li>
+                    <button type="button" onClick={() => setTab('news')}>News</button>
+                    {' '}— hiển thị {HOME_NEWS_LIMIT} tin mới nhất theo ngày (sửa ở tab News)
+                  </li>
+                  <li>
+                    <button type="button" onClick={() => setTab('schedule')}>Schedule</button>
+                    {' '}— hiển thị {HOME_SCHEDULE_LIMIT} sự kiện mới nhất theo ngày (sửa ở tab Schedule)
+                  </li>
                 </ul>
+                <p>Trang chủ tự lấy tin/lịch mới nhất theo ngày — không cần chỉnh riêng trên tab Trang chủ.</p>
               </div>
             </>
           )}
@@ -349,8 +368,8 @@ export function Admin() {
           {tab === 'news' && (
             <SectionBlock
               title="Danh sách tin tức"
-              hint="Hiển thị tại /news và preview ở trang chủ"
-              action={<button className="admin-add" onClick={() => setDraft(prev => ({ ...prev, news: [...(prev.news || []), { id: Date.now(), title: 'Tin mới', date: '2026,08,13', image: '', isNew: true, url: '/news' }] }))}>+ Thêm tin</button>}
+              hint={`Hiển thị tại /news — ${HOME_NEWS_LIMIT} tin mới nhất tự hiện ở trang chủ`}
+              action={<button className="admin-add" onClick={() => setDraft(prev => ({ ...prev, news: [...(prev.news || []), { id: Date.now(), title: 'Tin mới', date: '2026,08,13', image: '', isNew: false, url: '/news' }] }))}>+ Thêm tin</button>}
             >
               {(draft.news || []).map((item, index) => (
                 <div className="admin-sub-item" key={item.id}>
@@ -360,7 +379,11 @@ export function Admin() {
                     <Field label="Ngày (YYYY,MM,DD)" value={item.date} onChange={value => updateItem('news', index, 'date', value)} />
                     <Field label="Liên kết" value={item.url} onChange={value => updateItem('news', index, 'url', value)} />
                   </div>
-                  <label className="admin-field"><span>Đánh dấu NEW</span><input type="checkbox" checked={!!item.isNew} onChange={e => updateItem('news', index, 'isNew', e.target.checked)} /></label>
+                  <label className="admin-field admin-checkbox-field">
+                    <span>Luôn hiện MỚI</span>
+                    <input type="checkbox" checked={!!item.isNew} onChange={e => updateItem('news', index, 'isNew', e.target.checked)} />
+                    <small>Ghi đè — luôn hiện MỚI dù đã quá số ngày trong Cài đặt chung</small>
+                  </label>
                   <ImageField label="Ảnh thumbnail" value={item.image} onChange={value => updateItem('news', index, 'image', value)} />
                 </div>
               ))}
@@ -370,7 +393,7 @@ export function Admin() {
           {tab === 'schedule' && (
             <SectionBlock
               title="Lịch sự kiện"
-              hint="Hiển thị tại /schedule và preview ở trang chủ"
+              hint={`Hiển thị tại /schedule — ${HOME_SCHEDULE_LIMIT} sự kiện mới nhất tự hiện ở trang chủ`}
               action={<button className="admin-add" onClick={() => setDraft(prev => ({ ...prev, schedule: [...prev.schedule, { date: '1 Jan 2027', city: 'Bangkok', title: 'Sự kiện mới', type: 'Event' }] }))}>+ Thêm sự kiện</button>}
             >
               {draft.schedule.map((item, index) => (
@@ -512,6 +535,25 @@ export function Admin() {
                   <Field label="Dòng giới thiệu" value={draft.site.tagline} onChange={value => setSite('tagline', value)} />
                 </div>
                 <ImageField label="Logo" value={draft.site.logo} onChange={value => setSite('logo', value)} />
+              </SectionBlock>
+
+              <SectionBlock title="Nhãn MỚI / NEW" hint="Tự động gắn nhãn MỚI cho tin trong khoảng ngày bạn chọn">
+                <label className="admin-field admin-checkbox-field">
+                  <span>Tự động hiện nhãn MỚI</span>
+                  <input
+                    type="checkbox"
+                    checked={draft.site.newBadgeAuto !== false}
+                    onChange={e => setSite('newBadgeAuto', e.target.checked)}
+                  />
+                  <small>Bật để tin mới (theo ngày đăng) tự hiện MỚI/NEW</small>
+                </label>
+                <Field
+                  label="Số ngày"
+                  type="number"
+                  value={draft.site.newBadgeDays ?? 7}
+                  onChange={value => setSite('newBadgeDays', Number(value) || 0)}
+                  hint="VD: 7 = tin trong 7 ngày gần nhất sẽ có nhãn MỚI"
+                />
               </SectionBlock>
 
               <SectionBlock title="Footer" hint="Chân trang — mọi trang">

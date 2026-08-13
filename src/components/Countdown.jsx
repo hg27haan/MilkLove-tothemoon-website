@@ -23,11 +23,13 @@ export function Countdown({ target }) {
   const labels = [t.countdown.days, t.countdown.hours, t.countdown.mins, t.countdown.secs]
 
   return (
-    <div className="countdown-grid">
+    <div className="countdown-orbit" role="timer" aria-live="polite">
       {values.map((value, index) => (
-        <div className="countdown-cell" key={labels[index]}>
-          <strong>{String(value).padStart(2, '0')}</strong>
-          <span>{labels[index]}</span>
+        <div className="countdown-orbit-item" key={labels[index]} style={{ '--delay': `${index * 0.15}s` }}>
+          <div className="countdown-orbit-ring">
+            <strong className="wf">{String(value).padStart(2, '0')}</strong>
+          </div>
+          <span className="countdown-orbit-label">{labels[index]}</span>
         </div>
       ))}
     </div>

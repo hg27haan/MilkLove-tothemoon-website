@@ -4,7 +4,7 @@ import { doc, onSnapshot, setDoc } from 'firebase/firestore'
 import { siteData as defaultSiteData } from './siteData'
 import { auth, db, isFirebaseEnabled } from '../lib/firebase'
 
-const STORAGE_KEY = 'milklove-hub-content-v1'
+const STORAGE_KEY = 'milklove-tothemoon-content-v1'
 const FIRESTORE_DOC = ['site', 'content']
 const SiteDataContext = createContext(null)
 
@@ -19,7 +19,7 @@ function normalizeStat(stat) {
 }
 
 function normalizeData(data) {
-  const merged = { ...defaultSiteData, ...data }
+  const merged = { ...defaultSiteData, ...data, site: { ...defaultSiteData.site, ...data?.site } }
   return {
     ...merged,
     profiles: (merged.profiles || []).map(profile => ({
@@ -27,6 +27,7 @@ function normalizeData(data) {
       facts: (profile.facts || []).map(normalizeFact),
     })),
     stats: (merged.stats || []).map(normalizeStat),
+    countdown: { ...defaultSiteData.countdown, ...merged.countdown },
     projects: merged.projects || defaultSiteData.projects || [],
   }
 }

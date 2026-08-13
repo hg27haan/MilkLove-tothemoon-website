@@ -19,7 +19,7 @@ export const siteData = {
     name: 'MilkLove',
     shortName: 'ML',
     languageLabel: 'EN',
-    tagline: 'Official Fan Hub',
+    tagline: 'tothemoon',
     titleLine1: 'Milk',
     titleLine2: 'Love',
     logo: '/images/avt.svg',
@@ -28,6 +28,8 @@ export const siteData = {
     footerNote: 'Not affiliated with MilkLove or any agency',
     copyright: '©2026 MilkLove - tothemoon · Made by NahHuynh',
     accentColor: '#d94f6a',
+    newBadgeAuto: true,
+    newBadgeDays: 7,
   },
 
   banners: [
@@ -37,6 +39,7 @@ export const siteData = {
   ],
 
   countdown: {
+    enabled: true,
     label: 'Countdown to MilkLove Fancon',
     labelVi: 'Đếm ngược đến MilkLove Fancon',
     target: '2026-11-15T18:00:00+07:00',
@@ -48,7 +51,7 @@ export const siteData = {
       title: 'MilkLove Fancon 2026 — Official announcement & ticket info coming soon!',
       date: '2026,08,10',
       image: '/images/work-fancon.svg',
-      isNew: true,
+      isNew: false,
       url: '/schedule',
     },
     {
@@ -56,7 +59,7 @@ export const siteData = {
       title: 'Girl Rules Fan Meeting — Taipei, August 15, 2026',
       date: '2026,08,08',
       image: '/images/work-girlrules.svg',
-      isNew: true,
+      isNew: false,
       url: '/schedule',
     },
     {

@@ -3,24 +3,28 @@ import { useSiteData } from '../data/SiteDataContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { Link } from '../components/Layout'
 import { SectionTitle } from '../components/SectionTitle'
+import { parseNewsDate, sortByDateDesc } from '../lib/dateParse'
+import { shouldShowNewBadge } from '../lib/newsBadge'
 
 export function News() {
   const { data: siteData } = useSiteData()
   const { t } = useLanguage()
+
+  const newsItems = sortByDateDesc(siteData.news, item => parseNewsDate(item.date))
 
   return (
     <div className="sub-page news-page">
       <div className="container">
         <SectionTitle>{t.news.title}</SectionTitle>
         <div className="news-grid full">
-          {siteData.news.map(item => {
+          {newsItems.map(item => {
             const inner = (
               <>
                 <div className="entry-image">
                   <img src={item.image} alt="" />
                 </div>
                 <div className="entry-text">
-                  {item.isNew && <div className="entry-new wf">{t.news.badge}</div>}
+                  {shouldShowNewBadge(item, siteData.site) && <div className="entry-new wf">{t.news.badge}</div>}
                   <h3 className="entry-title">{item.title}</h3>
                   <div className="entry-date">{item.date}</div>
                 </div>
