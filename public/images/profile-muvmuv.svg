@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ead9aa"/><stop offset="1" stop-color="#d7c7a7"/></linearGradient></defs>
+<rect width="1200" height="900" fill="url(#g)"/>
+<path d="M0 690 C230 560 400 760 620 620 C860 470 960 650 1200 530 V900 H0Z" fill="rgba(255,255,255,.28)"/>
+<path d="M0 755 C250 650 430 845 670 710 C880 590 1010 740 1200 630 V900 H0Z" fill="rgba(255,255,255,.4)"/>
+<text x="72" y="105" fill="#1b1b1b" font-family="Arial, sans-serif" font-size="28" letter-spacing="4">EDITABLE IMAGE</text>
+<text x="72" y="740" fill="#1b1b1b" font-family="Georgia, serif" font-size="92">MuvMuv</text>
+<text x="76" y="790" fill="#1b1b1b" opacity=".62" font-family="Arial, sans-serif" font-size="24">Replace with mascot image</text>
+</svg>

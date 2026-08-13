@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Ai cũng đọc được nội dung website
+    match /site/content {
+      allow read: if true;
+      // Chỉ admin đã đăng nhập mới được ghi
+      allow write: if request.auth != null;
+    }
+  }
+}

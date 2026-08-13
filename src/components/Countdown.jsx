@@ -1,0 +1,33 @@
+import React, { useEffect, useMemo, useState } from 'react'
+
+export function Countdown({ target }) {
+  const getDiff = () => Math.max(0, new Date(target).getTime() - Date.now())
+  const [diff, setDiff] = useState(getDiff)
+
+  useEffect(() => {
+    const timer = setInterval(() => setDiff(getDiff()), 1000)
+    return () => clearInterval(timer)
+  }, [target])
+
+  const values = useMemo(() => {
+    return [
+      Math.floor(diff / 86400000),
+      Math.floor((diff / 3600000) % 24),
+      Math.floor((diff / 60000) % 60),
+      Math.floor((diff / 1000) % 60),
+    ]
+  }, [diff])
+
+  const labels = ['Days', 'Hours', 'Mins', 'Secs']
+
+  return (
+    <div className="countdown-grid">
+      {values.map((value, index) => (
+        <div className="countdown-cell" key={labels[index]}>
+          <strong>{String(value).padStart(2, '0')}</strong>
+          <span>{labels[index]}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
