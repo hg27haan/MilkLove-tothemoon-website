@@ -8,11 +8,33 @@ const STORAGE_KEY = 'milklove-hub-content-v1'
 const FIRESTORE_DOC = ['site', 'content']
 const SiteDataContext = createContext(null)
 
+function normalizeFact(fact) {
+  if (Array.isArray(fact)) return { label: fact[0] ?? '', value: fact[1] ?? '' }
+  return { label: fact?.label ?? '', value: fact?.value ?? '' }
+}
+
+function normalizeStat(stat) {
+  if (Array.isArray(stat)) return { label: stat[0] ?? '', value: Number(stat[1] ?? 0) }
+  return { label: stat?.label ?? '', value: Number(stat?.value ?? 0) }
+}
+
+function normalizeData(data) {
+  const merged = { ...defaultSiteData, ...data }
+  return {
+    ...merged,
+    profiles: (merged.profiles || []).map(profile => ({
+      ...profile,
+      facts: (profile.facts || []).map(normalizeFact),
+    })),
+    stats: (merged.stats || []).map(normalizeStat),
+  }
+}
+
 function loadLocalData() {
   try {
     const saved = window.localStorage.getItem(STORAGE_KEY)
     if (!saved) return defaultSiteData
-    return { ...defaultSiteData, ...JSON.parse(saved) }
+    return normalizeData(JSON.parse(saved))
   } catch {
     return defaultSiteData
   }
@@ -40,7 +62,7 @@ export function SiteDataProvider({ children }) {
       docRef,
       snapshot => {
         if (snapshot.exists()) {
-          setData({ ...defaultSiteData, ...snapshot.data() })
+          setData(normalizeData(snapshot.data()))
         } else {
           setData(defaultSiteData)
         }
@@ -80,18 +102,19 @@ export function SiteDataProvider({ children }) {
     },
 
     async saveData(nextData) {
+      const clean = normalizeData(nextData)
       if (isFirebaseEnabled) {
         if (!auth.currentUser) throw new Error('Bạn cần đăng nhập admin trước khi lưu.')
         await setDoc(doc(db, ...FIRESTORE_DOC), {
-          ...nextData,
+          ...clean,
           updatedAt: new Date().toISOString(),
         })
-        setData(nextData)
+        setData(clean)
         return
       }
 
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextData))
-      setData(nextData)
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(clean))
+      setData(clean)
     },
 
     async resetData() {

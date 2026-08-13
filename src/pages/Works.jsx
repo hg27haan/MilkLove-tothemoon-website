@@ -23,7 +23,7 @@ export function Works() {
   return (
     <section className="sub-page container">
       <div className="stats-strip">
-        {siteData.stats.map(([label, value]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}
+        {siteData.stats.map(stat => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
       </div>
       <SectionTitle>Works</SectionTitle>
 

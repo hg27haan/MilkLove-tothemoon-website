@@ -21,7 +21,9 @@ export function Profiles({ slug }) {
             <p className="profile-subtitle">{profile.subtitle}</p>
             <p className="profile-bio">{profile.bio}</p>
             <div className="facts-grid">
-              {profile.facts.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}
+              {profile.facts.map(fact => (
+                <div key={fact.label}><span>{fact.label}</span><strong>{fact.value}</strong></div>
+              ))}
             </div>
           </div>
         </div>

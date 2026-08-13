@@ -139,9 +139,9 @@ export const siteData = {
       image: '/images/profile-milk.svg',
       accent: '#d6b2b8',
       facts: [
-        ['Birthday', '31 July'],
-        ['Height', '170 cm'],
-        ['Hometown', 'Lampang'],
+        { label: 'Birthday', value: '31 July' },
+        { label: 'Height', value: '170 cm' },
+        { label: 'Hometown', value: 'Lampang' },
       ],
       bio: 'Thay đoạn giới thiệu Milk tại đây.',
     },
@@ -153,9 +153,9 @@ export const siteData = {
       image: '/images/profile-love.svg',
       accent: '#c9d5e8',
       facts: [
-        ['Birthday', '23 May'],
-        ['Height', '156 cm'],
-        ['Hometown', 'Bangkok'],
+        { label: 'Birthday', value: '23 May' },
+        { label: 'Height', value: '156 cm' },
+        { label: 'Hometown', value: 'Bangkok' },
       ],
       bio: 'Thay đoạn giới thiệu Love tại đây.',
     },
@@ -167,9 +167,9 @@ export const siteData = {
       image: '/images/profile-muvmuv.svg',
       accent: '#ead7a7',
       facts: [
-        ['Type', 'Mascot'],
-        ['Family', 'Fluffy Family'],
-        ['Status', 'Loved'],
+        { label: 'Type', value: 'Mascot' },
+        { label: 'Family', value: 'Fluffy Family' },
+        { label: 'Status', value: 'Loved' },
       ],
       bio: 'Thay đoạn giới thiệu MuvMuv tại đây.',
     },
@@ -252,11 +252,11 @@ export const siteData = {
   ],
 
   stats: [
-    ['Milk', 1027],
-    ['Love', 975],
-    ['MilkLove', 654],
-    ['MuvMuv', 54],
-    ['Fluffy Family', 21],
+    { label: 'Milk', value: 1027 },
+    { label: 'Love', value: 975 },
+    { label: 'MilkLove', value: 654 },
+    { label: 'MuvMuv', value: 54 },
+    { label: 'Fluffy Family', value: 21 },
   ],
 
   guideTabs: [
