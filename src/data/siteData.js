@@ -22,8 +22,8 @@ export const siteData = {
     tagline: 'Official Fan Hub',
     titleLine1: 'Milk',
     titleLine2: 'Love',
-    logo: '/images/logo.svg',
-    heroImage: '/images/hero.svg',
+    logo: '/images/avt.svg',
+    heroImage: '/images/x-header-ditto.svg',
     heroLabel: 'MilkLove Family',
     footerNote: 'Not affiliated with MilkLove or any agency',
     copyright: '©2026 MilkLove HUB · Fan-made editable edition',
@@ -31,7 +31,7 @@ export const siteData = {
   },
 
   banners: [
-    { image: '/images/hero.svg', url: '/schedule', alt: 'MilkLove Fancon 2026' },
+    { image: '/images/x-header-ditto.svg', url: '/works', alt: 'Ditto' },
     { image: '/images/work-fancon.svg', url: '/schedule', alt: 'Fancon' },
     { image: '/images/work-235.svg', url: '/works', alt: '23.5' },
   ],
