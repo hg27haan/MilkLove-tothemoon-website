@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { useLanguage } from '../i18n/LanguageContext'
 
 export function Countdown({ target }) {
+  const { t } = useLanguage()
   const getDiff = () => Math.max(0, new Date(target).getTime() - Date.now())
   const [diff, setDiff] = useState(getDiff)
 
@@ -18,7 +20,7 @@ export function Countdown({ target }) {
     ]
   }, [diff])
 
-  const labels = ['Days', 'Hours', 'Mins', 'Secs']
+  const labels = [t.countdown.days, t.countdown.hours, t.countdown.mins, t.countdown.secs]
 
   return (
     <div className="countdown-grid">

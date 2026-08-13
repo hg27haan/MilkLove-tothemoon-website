@@ -1,0 +1,126 @@
+export const translations = {
+  en: {
+    nav: {
+      profile: 'Profile',
+      works: 'Works',
+      schedule: 'Schedule',
+      project: 'Project',
+      news: 'News',
+    },
+    home: {
+      whatsNew: "What's New?",
+      schedule: 'Schedule',
+      seeMore: 'see more',
+    },
+    countdown: {
+      days: 'Days',
+      hours: 'Hours',
+      mins: 'Mins',
+      secs: 'Secs',
+    },
+    profile: {
+      title: 'Profile',
+      viewProfile: 'View Profile',
+      allProfiles: '← All profiles',
+      notFound: 'Profile not found',
+    },
+    works: {
+      title: 'Works',
+      results: 'results',
+      search: 'Search works...',
+      category: 'Category',
+      year: 'Year',
+      searchFilters: 'Search & Filters',
+      all: 'All',
+    },
+    schedule: {
+      title: 'Schedule',
+    },
+    project: {
+      title: 'Project',
+      subtitle: 'tothemoon',
+      home: 'Home',
+      empty: 'No projects yet.',
+      notFound: 'Project not found.',
+      back: '← Back to projects',
+      openLink: 'Reference link',
+    },
+    news: {
+      title: 'News',
+      badge: 'NEW',
+    },
+    footer: {
+      tagline: 'Love you tothemoon and back',
+      copyright: '©2026 MilkLove - tothemoon · Made by NahHuynh',
+      share: 'SHARE!',
+      sitePolicy: 'SITE POLICY',
+      privacy: 'PRIVACY POLICY',
+      admin: 'Admin',
+    },
+    lang: {
+      switch: 'Language',
+    },
+  },
+  vi: {
+    nav: {
+      profile: 'Hồ sơ',
+      works: 'Tác phẩm',
+      schedule: 'Lịch trình',
+      project: 'Dự án',
+      news: 'Tin tức',
+    },
+    home: {
+      whatsNew: 'Tin mới',
+      schedule: 'Lịch trình',
+      seeMore: 'xem thêm',
+    },
+    countdown: {
+      days: 'Ngày',
+      hours: 'Giờ',
+      mins: 'Phút',
+      secs: 'Giây',
+    },
+    profile: {
+      title: 'Hồ sơ',
+      viewProfile: 'Xem hồ sơ',
+      allProfiles: '← Tất cả hồ sơ',
+      notFound: 'Không tìm thấy hồ sơ',
+    },
+    works: {
+      title: 'Tác phẩm',
+      results: 'kết quả',
+      search: 'Tìm tác phẩm...',
+      category: 'Thể loại',
+      year: 'Năm',
+      searchFilters: 'Tìm kiếm & Lọc',
+      all: 'Tất cả',
+    },
+    schedule: {
+      title: 'Lịch trình',
+    },
+    project: {
+      title: 'Dự án',
+      subtitle: 'tothemoon',
+      home: 'Trang chủ',
+      empty: 'Chưa có dự án nào.',
+      notFound: 'Không tìm thấy dự án.',
+      back: '← Quay lại danh sách',
+      openLink: 'Link tham khảo',
+    },
+    news: {
+      title: 'Tin tức',
+      badge: 'MỚI',
+    },
+    footer: {
+      tagline: 'Love you tothemoon and back',
+      copyright: '©2026 MilkLove - tothemoon · Made by NahHuynh',
+      share: 'CHIA SẺ!',
+      sitePolicy: 'ĐIỀU KHOẢN',
+      privacy: 'BẢO MẬT',
+      admin: 'Quản trị',
+    },
+    lang: {
+      switch: 'Ngôn ngữ',
+    },
+  },
+}

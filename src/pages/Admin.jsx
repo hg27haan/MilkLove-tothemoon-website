@@ -26,6 +26,13 @@ const ADMIN_PAGES = [
     sections: ['Sự kiện'],
   },
   {
+    id: 'projects',
+    label: 'Project',
+    path: '/project',
+    desc: 'Dự án fan tothemoon — hiện ở trang /project',
+    sections: ['Danh sách project'],
+  },
+  {
     id: 'profiles',
     label: 'Profile',
     path: '/profiles',
@@ -147,7 +154,7 @@ function SectionBlock({ title, hint, children, action }) {
 }
 
 function AdminLogin() {
-  const { login } = useSiteData()
+  const { login, data: siteData } = useSiteData()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -167,16 +174,23 @@ function AdminLogin() {
   }
 
   return (
-    <section className="admin-page">
-      <div className="admin-login page-width">
-        <span className="admin-kicker">MilkLove Hub</span>
-        <h1>Đăng nhập Admin</h1>
-        <p>Chỉ tài khoản admin mới được chỉnh sửa nội dung trên Firebase.</p>
+    <section className="admin-login-page">
+      <div className="admin-login-card">
+        <a href="/" className="admin-login-back">← Về trang chủ</a>
+
+        <div className="admin-login-brand-block">
+          <img src={siteData.site.logo} alt={siteData.site.name} className="admin-login-logo" />
+          <span className="admin-login-brand wf">MILKLOVE - TOTHEMOON</span>
+        </div>
+
+        <h1 className="admin-login-title wf">ĐĂNG NHẬP CHO ADMIN</h1>
+        <p className="admin-login-subtitle">Chỉ có &quot;ác min&quot; tothemoon mới dùng được</p>
+
         <form onSubmit={submit} className="admin-login-form">
           <Field label="Email" type="email" value={email} onChange={setEmail} />
           <Field label="Mật khẩu" type="password" value={password} onChange={setPassword} />
-          {error && <p className="admin-error">{error}</p>}
-          <button className="admin-save" type="submit" disabled={submitting}>
+          {error && <p className="admin-error admin-login-error">{error}</p>}
+          <button className="admin-login-submit wf" type="submit" disabled={submitting}>
             {submitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
           </button>
         </form>
@@ -241,24 +255,32 @@ export function Admin() {
     home: draft.banners?.length || 0,
     news: draft.news?.length || 0,
     schedule: draft.schedule?.length || 0,
+    projects: draft.projects?.length || 0,
     profiles: draft.profiles?.length || 0,
     works: draft.works?.length || 0,
   }
 
   return (
     <section className="admin-page">
-      <div className="admin-header page-width">
-        <div>
-          <span className="admin-kicker">MilkLove Hub</span>
-          <h1>Quản trị nội dung</h1>
-          <p>{isFirebaseEnabled ? `Firebase · ${user?.email}` : 'Chế độ local'}</p>
+      <header className="admin-topbar">
+        <div className="admin-topbar-inner page-width">
+          <div className="admin-topbar-brand">
+            <img src={draft.site.logo} alt={draft.site.name} className="admin-topbar-logo" />
+            <div>
+              <span className="admin-kicker wf">MILKLOVE - TOTHEMOON</span>
+              <strong className="admin-topbar-title wf">Quản trị nội dung</strong>
+              <p className="admin-topbar-meta">{isFirebaseEnabled ? `Firebase · ${user?.email}` : 'Chế độ local'}</p>
+            </div>
+          </div>
+          <div className="admin-header-actions">
+            <a href="/" target="_blank" rel="noreferrer" className="admin-btn admin-btn-outline">Xem website ↗</a>
+            {isFirebaseEnabled && <button className="admin-btn admin-btn-outline" onClick={logout}>Đăng xuất</button>}
+            <button className="admin-btn admin-btn-primary wf" onClick={save} disabled={saving}>
+              {saving ? 'Đang lưu...' : 'Lưu tất cả'}
+            </button>
+          </div>
         </div>
-        <div className="admin-header-actions">
-          <a href="/" target="_blank" rel="noreferrer" className="admin-secondary">Xem website ↗</a>
-          {isFirebaseEnabled && <button className="admin-secondary" onClick={logout}>Đăng xuất</button>}
-          <button className="admin-save" onClick={save} disabled={saving}>{saving ? 'Đang lưu...' : 'Lưu tất cả'}</button>
-        </div>
-      </div>
+      </header>
 
       <div className="admin-workspace page-width">
         <aside className="admin-sidebar">
@@ -360,6 +382,53 @@ export function Admin() {
                     <Field label="Tên sự kiện" value={item.title} onChange={value => updateItem('schedule', index, 'title', value)} />
                     <Field label="Loại" value={item.type} onChange={value => updateItem('schedule', index, 'type', value)} hint="Fancon, On Stage..." />
                   </div>
+                </div>
+              ))}
+            </SectionBlock>
+          )}
+
+          {tab === 'projects' && (
+            <SectionBlock
+              title="Danh sách Project"
+              hint="Hiển thị tại /project — layout ảnh trái, nội dung phải"
+              action={(
+                <button
+                  className="admin-add"
+                  onClick={() => setDraft(prev => ({
+                    ...prev,
+                    projects: [...(prev.projects || []), {
+                      id: Date.now(),
+                      slug: `project-${Date.now()}`,
+                      title: 'New project',
+                      titleVi: 'Dự án mới',
+                      date: '2026.01.01',
+                      image: '',
+                      content: '',
+                      contentVi: '',
+                      externalLink: '',
+                    }],
+                  }))}
+                >
+                  + Thêm project
+                </button>
+              )}
+            >
+              {(draft.projects || []).map((item, index) => (
+                <div className="admin-sub-item" key={item.id}>
+                  <div className="admin-item-head">
+                    <h4>{item.title || `Project ${index + 1}`}</h4>
+                    <button onClick={() => removeItem('projects', index)}>Xóa</button>
+                  </div>
+                  <div className="admin-grid two">
+                    <Field label="Tiêu đề (EN)" value={item.title} onChange={value => updateItem('projects', index, 'title', value)} />
+                    <Field label="Tiêu đề (VI)" value={item.titleVi} onChange={value => updateItem('projects', index, 'titleVi', value)} />
+                    <Field label="Slug (URL)" value={item.slug} onChange={value => updateItem('projects', index, 'slug', value)} hint="Trang chi tiết: /project/slug" />
+                    <Field label="Ngày (YYYY.MM.DD)" value={item.date} onChange={value => updateItem('projects', index, 'date', value)} />
+                    <Field label="Link tham khảo (tuỳ chọn)" value={item.externalLink} onChange={value => updateItem('projects', index, 'externalLink', value)} hint="Chỉ hiện nút trên trang chi tiết, không dùng để chuyển trang" />
+                  </div>
+                  <Field label="Nội dung (EN)" multiline value={item.content} onChange={value => updateItem('projects', index, 'content', value)} />
+                  <Field label="Nội dung (VI)" multiline value={item.contentVi} onChange={value => updateItem('projects', index, 'contentVi', value)} />
+                  <ImageField label="Ảnh thumbnail" value={item.image} onChange={value => updateItem('projects', index, 'image', value)} />
                 </div>
               ))}
             </SectionBlock>

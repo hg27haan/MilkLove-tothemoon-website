@@ -27,6 +27,7 @@ function normalizeData(data) {
       facts: (profile.facts || []).map(normalizeFact),
     })),
     stats: (merged.stats || []).map(normalizeStat),
+    projects: merged.projects || defaultSiteData.projects || [],
   }
 }
 

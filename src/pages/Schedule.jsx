@@ -1,12 +1,14 @@
 import React from 'react'
 import { useSiteData } from '../data/SiteDataContext'
+import { useLanguage } from '../i18n/LanguageContext'
 import { SectionTitle } from '../components/SectionTitle'
 
 export function Schedule() {
   const { data: siteData } = useSiteData()
+  const { t } = useLanguage()
   return (
     <section className="sub-page container">
-      <SectionTitle>Schedule</SectionTitle>
+      <SectionTitle>{t.schedule.title}</SectionTitle>
       <div className="schedule-list">
         {siteData.schedule.map((item, index) => (
           <article key={`${item.date}-${index}`}>

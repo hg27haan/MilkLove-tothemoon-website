@@ -8,6 +8,8 @@ import { Stats } from './pages/Stats'
 import { Guide } from './pages/Guide'
 import { Game } from './pages/Game'
 import { News } from './pages/News'
+import { Projects } from './pages/Projects'
+import { ProjectDetail } from './pages/ProjectDetail'
 import { Movie } from './pages/Movie'
 import { Admin } from './pages/Admin'
 
@@ -34,6 +36,8 @@ export default function App() {
   else if (path === '/guide') page = <Guide />
   else if (path === '/game') page = <Game />
   else if (path === '/news') page = <News />
+  else if (path === '/project') page = <Projects />
+  else if (path.startsWith('/project/')) page = <ProjectDetail slug={path.split('/')[2]} />
   else if (path === '/movie') page = <Movie />
 
   return <Layout>{page}</Layout>

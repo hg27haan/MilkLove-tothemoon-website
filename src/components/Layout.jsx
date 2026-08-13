@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { useSiteData } from '../data/SiteDataContext'
+import { useLanguage } from '../i18n/LanguageContext'
+import { LanguageSwitch } from './LanguageSwitch'
 
-const navItems = [
-  ['Profile', '/profiles'],
-  ['Works', '/works'],
-  ['Schedule', '/schedule'],
-  ['News', '/news'],
+const navKeys = [
+  ['profile', '/profiles'],
+  ['works', '/works'],
+  ['schedule', '/schedule'],
+  ['project', '/project'],
+  ['news', '/news'],
 ]
 
 const socialIcons = {
@@ -45,51 +48,62 @@ export function Link({ to, children, className = '', onClick }) {
 
 export function Layout({ children }) {
   const { data: siteData } = useSiteData()
+  const { t } = useLanguage()
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <div className="app-shell">
       <header className="site-header">
-        <button
-          className={`drawer-toggle ${menuOpen ? 'open' : ''}`}
-          onClick={() => setMenuOpen(v => !v)}
-          aria-label="Menu"
-        >
-          <span></span><span></span><span></span>
-        </button>
+        <div className="header-shell">
+          <div className="header-main">
+            <h1 className="site-logo">
+              <Link to="/" onClick={() => setMenuOpen(false)}>
+                <img src={siteData.site.logo} alt={siteData.site.name} />
+              </Link>
+            </h1>
 
-        <h1 className="site-logo">
-          <Link to="/" onClick={() => setMenuOpen(false)}>
-            <img src={siteData.site.logo} alt={siteData.site.name} />
-          </Link>
-        </h1>
+            <nav className="header-nav wf hide-mobile">
+              <ul>
+                {navKeys.map(([key, to]) => (
+                  <li key={to}><Link to={to}>{t.nav[key]}</Link></li>
+                ))}
+              </ul>
+            </nav>
 
-        <nav className="nav-global wf hide-mobile">
-          <ul>
-            {navItems.map(([label, to]) => (
-              <li key={to + label}><Link to={to}>{label}</Link></li>
-            ))}
-          </ul>
-        </nav>
-
-        <div className="nav-sns hide-mobile">
-          <ul>
-            {siteData.socials.slice(0, 3).map(item => (
-              <li key={item.label}>
-                <a href={item.url} target="_blank" rel="noreferrer" aria-label={item.label}>
-                  {socialIcons[item.icon] || socialIcons.facebook}
-                </a>
-              </li>
-            ))}
-          </ul>
+            <div className="header-tools">
+              <LanguageSwitch className="hide-mobile" />
+              <div className="nav-sns hide-mobile">
+                <ul>
+                  {siteData.socials.slice(0, 3).map(item => (
+                    <li key={item.label}>
+                      <a href={item.url} target="_blank" rel="noreferrer" aria-label={item.label}>
+                        {socialIcons[item.icon] || socialIcons.facebook}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                className={`drawer-toggle ${menuOpen ? 'open' : ''}`}
+                onClick={() => setMenuOpen(v => !v)}
+                aria-label="Menu"
+              >
+                <span></span><span></span><span></span>
+              </button>
+            </div>
+          </div>
         </div>
 
         {menuOpen && (
           <nav className="drawer-nav">
+            <div className="drawer-lang">
+              <span>{t.lang.switch}</span>
+              <LanguageSwitch />
+            </div>
             <ul className="drawer-menu wf">
-              {navItems.map(([label, to]) => (
-                <li key={to + label}>
-                  <Link to={to} onClick={() => setMenuOpen(false)}>{label}</Link>
+              {navKeys.map(([key, to]) => (
+                <li key={to}>
+                  <Link to={to} onClick={() => setMenuOpen(false)}>{t.nav[key]}</Link>
                 </li>
               ))}
             </ul>
@@ -109,39 +123,11 @@ export function Layout({ children }) {
       <main role="main">{children}</main>
 
       <footer className="site-footer">
-        <div className="footer-sns">
-          <div className="footer-sns-title wf">SHARE!</div>
-          <ul>
-            <li>
-              <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(siteData.site.name + ' Official Fan Hub')}&url=${encodeURIComponent(window.location.origin)}`}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Share on X"
-              >
-                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
-              </a>
-            </li>
-            <li>
-              <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin)}`}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Share on Facebook"
-              >
-                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
-              </a>
-            </li>
-          </ul>
+        <div className="footer-brand">
+          <img src={siteData.site.logo} alt={siteData.site.name} className="footer-logo" />
+          <p className="footer-tagline wf">{t.footer.tagline}</p>
         </div>
-        <div className="footer-sub">
-          <ul>
-            <li><a href="#">SITE POLICY</a></li>
-            <li><a href="#">PRIVACY POLICY</a></li>
-            <li><Link to="/admin">Admin</Link></li>
-          </ul>
-        </div>
-        <div className="copyright">{siteData.site.copyright}</div>
+        <div className="copyright">{t.footer.copyright}</div>
       </footer>
     </div>
   )

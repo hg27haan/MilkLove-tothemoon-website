@@ -1,21 +1,24 @@
 import React from 'react'
 import { useSiteData } from '../data/SiteDataContext'
+import { useLanguage } from '../i18n/LanguageContext'
 import { Link } from '../components/Layout'
 import { SectionTitle } from '../components/SectionTitle'
 
 export function Profiles({ slug }) {
   const { data: siteData } = useSiteData()
+  const { t } = useLanguage()
+
   if (slug) {
     const profile = siteData.profiles.find(item => item.slug === slug)
-    if (!profile) return <div className="sub-page container"><h1>Profile not found</h1></div>
+    if (!profile) return <div className="sub-page container"><h1>{t.profile.notFound}</h1></div>
 
     return (
       <section className="profile-detail container">
-        <Link to="/profiles" className="back-link">← All profiles</Link>
+        <Link to="/profiles" className="back-link">{t.profile.allProfiles}</Link>
         <div className="profile-detail-grid">
           <div className="profile-detail-image" style={{ background: profile.accent }}><img src={profile.image} alt={profile.name}/></div>
           <div className="profile-detail-copy">
-            <span style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666' }}>Profile</span>
+            <span className="profile-eyebrow">{t.profile.title}</span>
             <h1>{profile.name}</h1>
             <h2>{profile.fullName}</h2>
             <p className="profile-subtitle">{profile.subtitle}</p>
@@ -33,12 +36,12 @@ export function Profiles({ slug }) {
 
   return (
     <section className="sub-page container">
-      <SectionTitle>Profile</SectionTitle>
+      <SectionTitle>{t.profile.title}</SectionTitle>
       <div className="profile-grid">
         {siteData.profiles.map(profile => (
           <Link key={profile.slug} to={`/profiles/${profile.slug}`} className="profile-card">
             <div className="profile-image" style={{ background: profile.accent }}><img src={profile.image} alt={profile.name}/></div>
-            <div className="profile-info"><h3>{profile.name}</h3><span>View Profile</span></div>
+            <div className="profile-info"><h3>{profile.name}</h3><span>{t.profile.viewProfile}</span></div>
           </Link>
         ))}
       </div>

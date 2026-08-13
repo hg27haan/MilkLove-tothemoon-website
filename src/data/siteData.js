@@ -26,7 +26,7 @@ export const siteData = {
     heroImage: '/images/x-header-ditto.svg',
     heroLabel: 'MilkLove Family',
     footerNote: 'Not affiliated with MilkLove or any agency',
-    copyright: '©2026 MilkLove HUB · Fan-made editable edition',
+    copyright: '©2026 MilkLove - tothemoon · Made by NahHuynh',
     accentColor: '#d94f6a',
   },
 
@@ -38,6 +38,7 @@ export const siteData = {
 
   countdown: {
     label: 'Countdown to MilkLove Fancon',
+    labelVi: 'Đếm ngược đến MilkLove Fancon',
     target: '2026-11-15T18:00:00+07:00',
   },
 
@@ -249,6 +250,39 @@ export const siteData = {
     { date: '3 Oct 2026', city: 'Manila', title: 'Girl Rules Fan Meeting', type: 'On Stage' },
     { date: '15 Nov 2026', city: 'Bangkok', title: 'MilkLove Fancon', type: 'Fancon' },
     { date: '12 Dec 2026', city: 'Madrid', title: 'White Christmas Fan Meet Day', type: 'On Stage' },
+  ],
+
+  projects: [
+    {
+      id: 1,
+      slug: 'donate-bbfanfest-2026',
+      title: "Donate for 'MilkLove in Bloom' project for <Blush Blossom FAN FEST 2026 : Midnight Bloom> by MilkLove Tothemoon",
+      titleVi: "Quyên góp dự án 'MilkLove in Bloom' cho <Blush Blossom FAN FEST 2026 : Midnight Bloom> bởi MilkLove Tothemoon",
+      date: '2026.05.12',
+      image: '/images/work-fancon.svg',
+      content: 'Support MilkLove Tothemoon fan project for Blush Blossom FAN FEST 2026 : Midnight Bloom.\n\nDonation details, progress updates and thank-you messages will be posted here.',
+      contentVi: 'Ủng hộ dự án fan MilkLove Tothemoon cho Blush Blossom FAN FEST 2026 : Midnight Bloom.\n\nThông tin quyên góp, tiến độ và lời cảm ơn sẽ được cập nhật tại đây.',
+    },
+    {
+      id: 2,
+      slug: 'tothemoon-birthday-project-2026',
+      title: 'MilkLove Tothemoon Birthday Project 2026 — LED ads & charity drive',
+      titleVi: 'Dự án sinh nhật MilkLove Tothemoon 2026 — LED ads & từ thiện',
+      date: '2026.03.20',
+      image: '/images/work-girlrules.svg',
+      content: 'A fan-led birthday project celebrating Milk and Love with LED screens and a small charity contribution.',
+      contentVi: 'Dự án sinh nhật do fan tổ chức dành cho Milk và Love với màn hình LED và hoạt động từ thiện nhỏ.',
+    },
+    {
+      id: 3,
+      slug: 'fancon-support-2026',
+      title: 'MilkLove Fancon 2026 — Support banners & welcome gifts',
+      titleVi: 'MilkLove Fancon 2026 — Banner chào mừng & quà fan',
+      date: '2026.06.01',
+      image: '/images/x-header-ditto.svg',
+      content: 'Collecting support for welcome banners and small gifts for MilkLove Fancon attendees.',
+      contentVi: 'Gây quỹ banner chào mừng và quà nhỏ cho fan tham dự MilkLove Fancon.',
+    },
   ],
 
   stats: [

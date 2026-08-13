@@ -1,18 +1,19 @@
 import React from 'react'
 import { useSiteData } from '../data/SiteDataContext'
+import { useLanguage } from '../i18n/LanguageContext'
 import { HeroSlider } from '../components/HeroSlider'
 import { Countdown } from '../components/Countdown'
 import { SectionTitle } from '../components/SectionTitle'
 import { Link } from '../components/Layout'
 
-function NewsEntry({ item }) {
+function NewsEntry({ item, newBadge }) {
   const inner = (
     <>
       <div className="entry-image">
         <img src={item.image} alt="" />
       </div>
       <div className="entry-text">
-        {item.isNew && <div className="entry-new wf">NEW</div>}
+        {item.isNew && <div className="entry-new wf">{newBadge}</div>}
         <h3 className="entry-title">{item.title}</h3>
         <div className="entry-date">{item.date}</div>
       </div>
@@ -28,6 +29,10 @@ function NewsEntry({ item }) {
 
 export function Home() {
   const { data: siteData } = useSiteData()
+  const { t, lang } = useLanguage()
+  const countdownLabel = lang === 'vi'
+    ? (siteData.countdown.labelVi || siteData.countdown.label)
+    : siteData.countdown.label
 
   return (
     <div className="home-page">
@@ -35,27 +40,27 @@ export function Home() {
 
       <section className="home-section countdown-section">
         <div className="countdown-block">
-          <p className="countdown-label wf">{siteData.countdown.label}</p>
+          <p className="countdown-label wf">{countdownLabel}</p>
           <Countdown target={siteData.countdown.target} />
         </div>
       </section>
 
       <section className="home-section news-section">
-        <SectionTitle>What's New?</SectionTitle>
+        <SectionTitle>{t.home.whatsNew}</SectionTitle>
         <div className="section-body">
           <div className="news-grid">
             {siteData.news.slice(0, 6).map(item => (
-              <NewsEntry key={item.id} item={item} />
+              <NewsEntry key={item.id} item={item} newBadge={t.news.badge} />
             ))}
           </div>
         </div>
         <div className="section-nav">
-          <Link to="/news" className="btn-primary">see more</Link>
+          <Link to="/news" className="btn-primary">{t.home.seeMore}</Link>
         </div>
       </section>
 
       <section className="home-section tour-section">
-        <SectionTitle>Schedule</SectionTitle>
+        <SectionTitle>{t.home.schedule}</SectionTitle>
         <div className="section-body">
           <div className="tour-list">
             {siteData.schedule.slice(0, 4).map((event, index) => (
@@ -77,7 +82,7 @@ export function Home() {
           </div>
         </div>
         <div className="section-nav">
-          <Link to="/schedule" className="btn-primary">see more</Link>
+          <Link to="/schedule" className="btn-primary">{t.home.seeMore}</Link>
         </div>
       </section>
     </div>
